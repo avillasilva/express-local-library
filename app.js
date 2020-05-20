@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var compression = require('compression');
+var helmet = require('helmet');
 
 var mongoDB = 'mongodb+srv://Admin:4JIOltjuJLT0Cwy7@cluster0-5j2rl.azure.mongodb.net/test?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -21,10 +23,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(helmet());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(compression());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);

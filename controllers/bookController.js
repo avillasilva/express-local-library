@@ -1,5 +1,4 @@
-const { body, validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
+const { body, validationResult } = require('express-validator');
 
 var async = require('async');
 
@@ -104,7 +103,7 @@ exports.book_create_post = [
     body('isbn', 'ISBN must not be empty').trim().isLength({ min: 1 }),
 
     // Sanitize fields (using wildcard).
-    sanitizeBody('*').escape(),
+    body('*').escape(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -260,11 +259,11 @@ exports.book_update_post = [
     body('isbn', 'ISBN must not be empty').trim().isLength({ min: 1 }),
 
     // Sanitize fields.
-    sanitizeBody('title').escape(),
-    sanitizeBody('author').escape(),
-    sanitizeBody('summary').escape(),
-    sanitizeBody('isbn').escape(),
-    sanitizeBody('genre.*').escape(),
+    body('title').escape(),
+    body('author').escape(),
+    body('summary').escape(),
+    body('isbn').escape(),
+    body('genre.*').escape(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
